@@ -16,3 +16,15 @@ class UnaryUnaryClientInterceptor(grpc.UnaryUnaryClientInterceptor):
         logging.debug("invoke server method={} duration={}".format(client_call_details.method, elapsed_time))
         
         return response_future
+
+
+class ServerInterceptor(grpc.ServerInterceptor):
+
+    def intercept_service(self, continuation, handler_call_details):
+
+        start_time = time.time() 
+        response_future = continuation(handler_call_details)
+        elapsed_time = time.time() - start_time
+        logging.debug("invoke server method={} duration={}".format(handler_call_details.method, elapsed_time))
+        
+        return response_future

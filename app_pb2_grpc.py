@@ -63,6 +63,48 @@ def add_CacheServicer_to_server(servicer, server):
   server.add_generic_rpc_handlers((generic_handler,))
 
 
+class StreamVideoStub(object):
+  # missing associated documentation comment in .proto file
+  pass
+
+  def __init__(self, channel):
+    """Constructor.
+
+    Args:
+      channel: A grpc.Channel.
+    """
+    self.GetVideo = channel.unary_stream(
+        '/rpc.StreamVideo/GetVideo',
+        request_serializer=app__pb2.Empty.SerializeToString,
+        response_deserializer=app__pb2.Image.FromString,
+        )
+
+
+class StreamVideoServicer(object):
+  # missing associated documentation comment in .proto file
+  pass
+
+  def GetVideo(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+
+def add_StreamVideoServicer_to_server(servicer, server):
+  rpc_method_handlers = {
+      'GetVideo': grpc.unary_stream_rpc_method_handler(
+          servicer.GetVideo,
+          request_deserializer=app__pb2.Empty.FromString,
+          response_serializer=app__pb2.Image.SerializeToString,
+      ),
+  }
+  generic_handler = grpc.method_handlers_generic_handler(
+      'rpc.StreamVideo', rpc_method_handlers)
+  server.add_generic_rpc_handlers((generic_handler,))
+
+
 class AccountsStub(object):
   # missing associated documentation comment in .proto file
   pass
